@@ -7,6 +7,9 @@ const theme = createTheme({
          dark: '#008b10',
          contrastText: '#000000',
       },
+      secondary: {
+         main: '#FFD580',
+      },
    },
    components: {
       MuiLink: {

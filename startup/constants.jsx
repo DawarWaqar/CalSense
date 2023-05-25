@@ -1,4 +1,4 @@
 const PROJECT_NAME = 'Calorie Counter'
-const ALLOWED_CALORIES = 2000
+const ALLOWED_CALORIES = 600
 
 export { PROJECT_NAME, ALLOWED_CALORIES }

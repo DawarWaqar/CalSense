@@ -7,74 +7,103 @@ import IconButton from '@mui/material/IconButton'
 import Grid from '@mui/material/Grid'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
-import { Container, TextField } from '@mui/material'
+import { Container, Divider, Paper, TextField, Box } from '@mui/material'
 import { useState } from 'react'
 
-function InteractiveList({ items, setItems }) {
+function InteractiveList({ items, setItems, setRemainingAllowedCalories }) {
    const [currentItem, setCurrentItem] = useState('')
-   const CustomDiv = styled('div')({
-      backgroundColor: 'orange',
-   })
+   const CustomDiv = styled('div')(({ theme }) => ({
+      backgroundColor: theme.palette.secondary.main,
+   }))
 
    const handleChange = (e) => {
       e.preventDefault()
-      console.log('handle change')
       setCurrentItem(e.target.value)
    }
 
    const handleAdd = () => {
-      console.log('handle add')
-      setItems((prevArr) => [...prevArr, currentItem])
+      if (currentItem === '' || currentItem in items) return
+      setItems((prevState) => ({
+         ...prevState,
+         [currentItem]: 200,
+      }))
+      setRemainingAllowedCalories((prevCalories) => prevCalories - 200)
       setCurrentItem('')
    }
 
-   const itemsJSX = items.map((item, index) => {
-      return (
+   const handleDelete = (key) => {
+      setRemainingAllowedCalories((prevState) => prevState + items[key])
+      const tempObj = { ...items }
+      delete tempObj[key]
+      setItems(tempObj)
+   }
+
+   const entries = Object.entries(items)
+   const itemsJSX = entries.map(([item, calories], index) => (
+      <div key={item}>
          <ListItem
-            key={index}
             secondaryAction={
-               <IconButton edge='end'>
+               <IconButton edge='end' onClick={() => handleDelete(item)}>
                   <DeleteIcon />
                </IconButton>
             }
          >
             <ListItemText primary={item} />
          </ListItem>
-      )
-   })
+         {index !== entries.length - 1 && <Divider />}
+      </div>
+   ))
 
    return (
       <Container maxWidth='sm'>
          <Grid container spacing={3}>
             <Grid item xs={12}>
-               <CustomDiv>
-                  <List dense disablePadding>
-                     <ListItem
-                        secondaryAction={
-                           <IconButton edge='end' onClick={handleAdd}>
-                              <AddIcon />
-                           </IconButton>
-                        }
-                     >
-                        <TextField
-                           autoFocus
-                           label='Add food'
-                           variant='standard'
-                           size='small'
-                           fullWidth
-                           value={currentItem}
-                           onChange={handleChange}
-                        />
-                     </ListItem>
-                  </List>
-               </CustomDiv>
+               <Paper>
+                  <CustomDiv>
+                     <List dense disablePadding>
+                        <ListItem
+                           secondaryAction={
+                              <IconButton edge='end' onClick={handleAdd}>
+                                 <AddIcon />
+                              </IconButton>
+                           }
+                        >
+                           <TextField
+                              autoFocus
+                              label='Add food'
+                              variant='outlined'
+                              size='small'
+                              fullWidth
+                              value={currentItem}
+                              onChange={handleChange}
+                              margin='dense'
+                              onKeyDown={(e) => {
+                                 if (e.key === 'Enter') {
+                                    handleAdd()
+                                 }
+                              }}
+                           />
+                        </ListItem>
+                     </List>
+                  </CustomDiv>
+               </Paper>
             </Grid>
 
-            {items.length != 0 && (
+            {entries.length != 0 && (
                <Grid item xs={12}>
-                  <CustomDiv>
-                     <List dense>{itemsJSX}</List>
-                  </CustomDiv>
+                  <Paper square>
+                     <CustomDiv>
+                        <List
+                           dense
+                           sx={{
+                              overflow: 'auto',
+                              maxHeight: 175,
+                           }}
+                        >
+                           {itemsJSX}
+                        </List>
+                     </CustomDiv>
+                  </Paper>
                </Grid>
             )}
          </Grid>
