@@ -8,11 +8,13 @@ export default function Header({}) {
             <Grid container direction='row' alignItems='center'>
                <Grid item xs={4} display='flex' justifyContent='flex-start'>
                   <Link href={'/'} underline='hover'>
-                     <Typography>{PROJECT_NAME}</Typography>
+                     <Typography>
+                        <b>{PROJECT_NAME}</b>
+                     </Typography>
                   </Link>
                </Grid>
                <Grid item xs={4} display='flex' justifyContent='center'>
-                  <Typography>[center]</Typography>
+                  {/* <Typography>[center]</Typography> */}
                </Grid>
                <Grid item xs={4} display='flex' justifyContent='flex-end'>
                   <Link href={'/profile'} underline='hover'>
