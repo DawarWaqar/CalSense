@@ -1,3 +1,4 @@
-const PROJECT_NAME = 'startup'
+const PROJECT_NAME = 'Calorie Counter'
+const ALLOWED_CALORIES = 2000
 
-export { PROJECT_NAME }
+export { PROJECT_NAME, ALLOWED_CALORIES }
