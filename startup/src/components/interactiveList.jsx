@@ -5,9 +5,9 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import IconButton from '@mui/material/IconButton'
 import Grid from '@mui/material/Grid'
-import DeleteIcon from '@mui/icons-material/Delete'
+import ClearIcon from '@mui/icons-material/Clear'
 import AddIcon from '@mui/icons-material/Add'
-import { Container, Divider, Paper, TextField, Box } from '@mui/material'
+import { Container, Divider, Paper, TextField } from '@mui/material'
 import { useState } from 'react'
 
 function InteractiveList({ items, setItems, setRemainingAllowedCalories }) {
@@ -15,6 +15,12 @@ function InteractiveList({ items, setItems, setRemainingAllowedCalories }) {
    const CustomDiv = styled('div')(({ theme }) => ({
       backgroundColor: theme.palette.secondary.main,
    }))
+
+   const StyledListItemText = styled(ListItemText)({
+      maxWidth: '276px',
+      display: 'flex',
+      justifyContent: 'space-between',
+   })
 
    const handleChange = (e) => {
       e.preventDefault()
@@ -44,11 +50,11 @@ function InteractiveList({ items, setItems, setRemainingAllowedCalories }) {
          <ListItem
             secondaryAction={
                <IconButton edge='end' onClick={() => handleDelete(item)}>
-                  <DeleteIcon />
+                  <ClearIcon fontSize='small' />
                </IconButton>
             }
          >
-            <ListItemText primary={item} />
+            <StyledListItemText primary={item} secondary={`${calories} kcal`} />
          </ListItem>
          {index !== entries.length - 1 && <Divider />}
       </div>
