@@ -1,0 +1,4 @@
+const PROJECT_NAME = 'CalorieSense'
+const ALLOWED_CALORIES = 600
+
+export { PROJECT_NAME, ALLOWED_CALORIES }
